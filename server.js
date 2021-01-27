@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(express.static("public"))
 
 
-mongoose.connect(process.env.MONGoDB_URI || "mongodb://localhost:27017/myapp", {
+mongoose.connect(process.env.MONGoDB_URI || "mongodb://localhost:27017/workout", {
     useNewUrlParser: true
 }, (err) => {
     if (err) throw err;
@@ -19,12 +19,12 @@ mongoose.connect(process.env.MONGoDB_URI || "mongodb://localhost:27017/myapp", {
 
 app.get("/api/test", (req, res) => {
     res.json({
-
         success: true
     })
 })
 
 require("./routes/html_routes")(app)
+require("./routes/api_routes")(app)
 app.listen(PORT, () => {
     console.log(`App is Listening on port: ${PORT}`)
 })
