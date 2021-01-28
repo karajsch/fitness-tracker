@@ -13,37 +13,46 @@ router.post("/api/workouts", (req, res) => {
 })
 
 router.get("/api/workouts", (req, res) => {
-    db.Workout.find().then(response => {
-        res.json(response)
+    db.Workout.find({}).then(dbWorkout => {
+        dbWorkout.forEach(workout => {
+            var total = 0;
+            workout.exercises.forEach(e => {
+                total += e.duration;
+            });
+            workout.totalDuration = total;
+
+        });
+
+        res.json(dbWorkout);
     }).catch(err => {
-        res.send(err)
-    })
+        res.json(err);
+    });
 })
 
 router.put('/api/workouts/:id', (req, res) => {
-    db.Workout.findByIdAndUpdate(
-            req.params.id, {
-                $push: {
-                    exercises: req.body
-                }
-            }, {
-                new: true,
-                runValidators: true
-            }
-        )
-        .then((response) => {
-            res.json(response);
-        })
-        .catch((err) => {
-            res.json(err);
-        });
+    db.Workout.findOneAndUpdate({
+        _id: req.params.id
+    }, {
+        $inc: {
+            totalDuration: req.body.duration
+        },
+        $push: {
+            exercises: req.body
+        }
+    }, {
+        new: true
+    }).then(dbWorkout => {
+        res.json(dbWorkout);
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 ///not sure about this part right here!
 router.get("/api/workouts/range", (req, res) => {
 
     db.Workout.find({}).then(response => {
-        console.log("ALL WORKOUTS");
+        console.log("All of the workouts!");
         console.log(response);
 
         res.json(response);
