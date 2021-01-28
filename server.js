@@ -21,11 +21,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/workout",
     console.log("Mongo connected")
 })
 
-app.get("/api/test", (req, res) => {
+/* app.get("/api/test", (req, res) => {
     res.json({
         success: true
     })
-})
+}) */
 
 
 app.use(require("./routes/api_routes.js"));
