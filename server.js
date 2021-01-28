@@ -4,9 +4,10 @@ const mongoose = require("mongoose")
 const PORT = process.env.PORT || 3001
 
 app.use(express.urlencoded({
-    extended: false
+    extended: true
 }))
 app.use(express.json())
+
 app.use(express.static("public"))
 
 
@@ -26,8 +27,10 @@ app.get("/api/test", (req, res) => {
     })
 })
 
-require("./routes/html_routes")(app)
-require("./routes/api_routes")(app)
+
+app.use(require("./routes/api_routes.js"));
+app.use(require("./routes/html_routes.js"));
+
 app.listen(PORT, () => {
-    console.log(`App is Listening on port: ${PORT}`)
-})
+    console.log(`App running on port ${PORT}!`);
+});
