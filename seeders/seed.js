@@ -6,7 +6,6 @@ mongoose.connect("mongodb://localhost/workout", {
   useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false
-  useFindAndModify: false
 });
 
 let workoutSeed = [{
