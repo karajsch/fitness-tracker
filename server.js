@@ -10,8 +10,11 @@ app.use(express.json())
 app.use(express.static("public"))
 
 
-mongoose.connect(process.env.MONGoDB_URI || "mongodb://localhost:27017/workout", {
-    useNewUrlParser: true
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/workout", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
 }, (err) => {
     if (err) throw err;
     console.log("Mongo connected")
